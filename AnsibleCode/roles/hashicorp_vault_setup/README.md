@@ -1,20 +1,17 @@
-hashicorp_vault_setup
-=========
-**Quick Summary:** Just set `vault_config_file` param in your inventory.
-**Quick Summary:** Just set `vault_config_file` param in your inventory.
-**Quick Summary:** Just set `vault_config_file` param in your inventory.
+# HashiCorp Vault Setup
 
+**Quick Summary:** Ensure you set the `vault_config_file` parameter in your inventory for proper integration with Terraform.
 
-Role will install HashiCorp Vault by binary file. 
+This role installs HashiCorp Vault from a binary file.
 
-Requirements.
-------------
+## Requirements
 
-!Before deploying this Ansible role, ensure the `vault_config_file` variable is defined in your inventory, crucial for Terraform integration. The Terraform script dynamically generates an inventory, assigning each host a unique Vault configuration file:
+Before deploying this Ansible role, make sure the `vault_config_file` variable is defined in your inventory. This is essential for the integration with Terraform, which dynamically generates an inventory and assigns a unique Vault configuration file to each host:
 
-!BECAUSE:
-TerraformCode/main.yml/ (string 60+):
+**Important:**
+The `vault_config_file` parameter is a **REQUIRED** parameter for the inventory file, as demonstrated below in the Terraform script located at `TerraformCode/main.yml` (line 60+):
 
+```hcl
 resource "local_file" "ansible_inventory_yaml" {
   content = yamlencode({
     all = {
@@ -22,10 +19,10 @@ resource "local_file" "ansible_inventory_yaml" {
         vault = {
           hosts = {
             "vault1" => {
-              ansible_host = "x.x.x.x"
-              vault_config_file = "vault-config-${index + 1}.hcl"   # REQUIRED PARAMETER FOR THE inventory file
+              ansible_host = "x.x.x.x",
+              vault_config_file = "vault-config-${index + 1}.hcl"   // REQUIRED PARAMETER
             },
-            ...
+            // something else...
           }
         }
       }
@@ -33,14 +30,3 @@ resource "local_file" "ansible_inventory_yaml" {
   })
   filename = "path/to/hosts.yml"
 }
-
-
-Example Playbook
-----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: vault
-      become: true
-      roles:
-         - hashicorp_vault_install
