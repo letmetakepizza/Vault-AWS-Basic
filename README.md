@@ -2,13 +2,14 @@
 
 This project aims to simplify the process of deploying a HashiCorp Vault cluster in AWS using Terraform and Ansible. The goal is to achieve a minimal manual intervention setup where `terraform apply -auto-approve` and `ansible-playbook playbook -i hosts.txt` are the ONLY commands needed to get the cluster up and running.
 
-## Note: Auto_unseal and TLS configuration are not included yet.
-
 ## Goals
 
 - **Automate Deployment**: Simplify the process of deploying a HashiCorp Vault cluster in AWS.
-- **Dynamic Configuration**: Automate the creation of individual Vault configuration files and distribute them with Ansible.
+- **Auto Unseal**: Enables auto unseal through aws KMS
+- **TLS (self-signed)**: Enables TLS configuration for Vault cluster 
+- **Dynamic Configuration**: Automate the creation of individual Vault (vault.hcl) configuration files and distribute them with Ansible.
 - **Dynamic Inventory**: Use Terraform to generate an inventory file for Ansible.
+- **Bastion-host**: To access Vault cluster - provide opportunity to create 1 or more bastion host to create additional security layer
 
 ## Key Mechanisms
 
